@@ -1,20 +1,16 @@
 import React, { ChangeEvent, useRef } from 'react';
-import useTaskManager from '../store/useTaskManager';
-import { Task } from '../store/useTaskManager';
+import useTaskManager, { Task } from '../store/useTaskManager';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 const TaskManager = () => {
   const createTaskRef = useRef<HTMLInputElement>(null);
-  /**const [tasks, setTasks] = useLocalStorage<Task[]>('tasks', []);
-  const {
-    searchTask,
-    addTask,
-    updateTask,
-    deleteTask,
-    setSearchTask,
-  } = useTaskManager(tasks);*/
+  const [searchTaskValue, setSearchTaskValue] = useLocalStorage<string>(
+    'searchTask',
+    ''
+  );
+
   const {
     tasks,
-    searchTask,
     addTask,
     updateTask,
     deleteTask,
@@ -43,11 +39,11 @@ const TaskManager = () => {
   };
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchTask(e.target.value);
+    setSearchTaskValue(e.target.value);
   };
 
   const filteredTasks = tasks.filter((task) =>
-    task.title.toLowerCase().includes(searchTask.toLowerCase())
+    task.title.toLowerCase().includes(searchTaskValue.toLowerCase())
   );
 
   return (
@@ -58,7 +54,12 @@ const TaskManager = () => {
 
       <button onClick={handleAddTask}>Add Task</button>
 
-      <input type="text" onChange={handleSearch} placeholder="Search Task" />
+      <input
+        type="text"
+        value={searchTaskValue}
+        onChange={handleSearch}
+        placeholder="Search Task"
+      />
 
       <ul>
         {filteredTasks.map((task) => (
