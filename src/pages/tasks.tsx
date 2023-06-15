@@ -4,6 +4,14 @@ import { Task } from '../store/useTaskManager';
 
 const TaskManager = () => {
   const createTaskRef = useRef<HTMLInputElement>(null);
+  /**const [tasks, setTasks] = useLocalStorage<Task[]>('tasks', []);
+  const {
+    searchTask,
+    addTask,
+    updateTask,
+    deleteTask,
+    setSearchTask,
+  } = useTaskManager(tasks);*/
   const {
     tasks,
     searchTask,
